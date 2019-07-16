@@ -10,7 +10,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import static org.apache.commons.io.filefilter.FileFilterUtils.and;
-
+ 
 
 @Configuration
 @EnableWebSecurity
