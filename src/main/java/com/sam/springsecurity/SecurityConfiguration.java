@@ -21,12 +21,7 @@ import static org.apache.commons.io.filefilter.FileFilterUtils.and;
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Bean
-    public static BCryptPasswordEncoder passwordEncoder(){
-        return new BCryptPasswordEncoder();
-    }
-
-    @Bean
-    public PasswordEncoder passwordEncoder() {
+    public BCryptPasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder();
     }
 
@@ -34,20 +29,19 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     private SSUserDetailsService userDetailsService;
 
     @Autowired
-    private userRepository appUserRepository;
+    private UserRepository userRepository;
 
     @Override
     public UserDetailsService userDetailsServiceBean() throws
             Exception {
-        return new SSUserDetailsService(appUserRepository);
+            return new SSUserDetailsService(userRepository);
     }
 
     @Override
-    protected  void configure(HttpSecurity http) throws Exception{
+    protected void configure(HttpSecurity http) throws Exception{
         http
                 .authorizeRequests()
                 .antMatchers("/", "/h2-console/**").permitAll()
-                .antMatchers("/").access("hasAnyAuthority('USER','ADMIN')")
                 .antMatchers("/admin").access("hasAuthority('ADMIN')")
                 .anyRequest().authenticated()
                 .and().formLogin().loginPage("/login").permitAll()
@@ -68,35 +62,5 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
         auth.userDetailsService(userDetailsServiceBean())
                 .passwordEncoder(passwordEncoder());
-    }
-
-
-    @Override
-    protected void configure(HttpSecurity http) throws Exception{
-        http
-                .authorizeRequests()
-                .antMatchers("/")
-                .access("hasAnyAuthority('USER','ADMIN')")
-                .antMatchers("/admin").access("hasAuthority('ADMIN')")
-                .anyRequest().authenticated()
-                .and()
-                .formLogin().loginPage("/login").permitAll()
-                .and()
-                .logout()
-                .logoutRequestMatcher(
-                        new AntPathRequestMatcher("/logout"))
-                .logoutSuccessUrl("/login").permitAll();
-    }
-
-
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception
-    {
-        auth.inMemoryAuthentication()
-                .withUser("dave").password(passwordEncoder().encode("begreat")).authorities("ADMIN")
-
-                .and()
-                .withUser("user").password(passwordEncoder().encode("password")).authorities("USER");
-
     }
 }
