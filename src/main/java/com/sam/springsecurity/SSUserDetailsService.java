@@ -8,6 +8,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.HashSet;
+import java.util.Set;
 
 @Transactional
 @Service
@@ -31,13 +33,14 @@ public class SSUserDetailsService implements UserDetailsService {
                     user.getPassword(),
                     getAuthorities(user)
             );
+
         } catch (Exception e)
         {
             throw new UsernameNotFoundException("User not found");
         }
     }
 
-    private  Set<GrantedAuthority> getAuthorities(User user) {
+    private Set<GrantedAuthority> getAuthorities(User user) {
         Set<GrantedAuthority> authorities = new HashSet<>();
         for(Role role : user.getRoles()) {
             GrantedAuthority grantedAuthority =
