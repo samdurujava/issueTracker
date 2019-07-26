@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Issue</title>
+
+    <!--CSS BOOTSTRAP-->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+</head>
+<body>
+
+<div th:replace="base :: navlinks"></div>
+
+
+<form action="#" th:action="@{/process_issue}" th:object="${issue}" method="post">
+    <input type="hidden" th:field="*{issueID}">
+
+    Issue: <input type="text" th:field="*{issueName}"><br />
+    <span th:if="${#fields.hasErrors('issueName')}" th:errors="*{issueName}"></span><br />
+
+    Status: <input type="text" th:field="*{issueStatus}"><br />
+    <span th:if="${#fields.hasErrors('issueStatus')}" th:errors="*{issueStatus}"></span><br />
+
+    Priority: <input type="text" th:field="*{issuePriority}"><br />
+    <span th:if="${#fields.hasErrors('issuePriority')}" th:errors="*{issuePriority}"></span><br />
+
+    Description: <input type="text" th:field="*{issueDescription}"><br />
+    <span th:if="${#fields.hasErrors('issueDescription')}" th:errors="*{issueDescription}"></span><br />
+
+    Submitted By: <input type="text" th:field="*{submittedBy}"><br />
+    <span th:if="${#fields.hasErrors('submittedBy')}" th:errors="*{submittedBy}"></span><br />
+
+    Assigned To: <input type="text" th:field="*{assignedTo}"><br />
+    <span th:if="${#fields.hasErrors('assignedTo')}" th:errors="*{assignedTo}"></span><br />
+
+    Steps: <input type="text" th:field="*{steps}"><br />
+    <span th:if="${#fields.hasErrors('steps')}" th:errors="*{steps}"></span><br />
+
+
+    <select name="project" th:field="*{project}">
+        <option th:each="project : ${projects}"
+                th:value="${project.projectID}"
+                th:text="${project.projectName}"></option>
+    </select>
+    <input type="submit" value="Submit">
+</form>
+
+<!--JAVASCRIPT BOOTSTRAP-->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+
+</body>
+</html>
