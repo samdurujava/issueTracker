@@ -34,7 +34,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     public UserDetailsService userDetailsServiceBean() throws
             Exception {
-            return new SSUserDetailsService(userRepository);
+        return new SSUserDetailsService(userRepository);
     }
 
     @Override
